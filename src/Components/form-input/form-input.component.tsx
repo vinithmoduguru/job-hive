@@ -46,8 +46,20 @@ const FormInput = (props: FormInputProps) => {
     case "range":
       inputElement = (
         <div className="flex gap-6 items-center">
-          <input type="number" className={inputClass} placeholder="Minimum" />
-          <input type="number" className={inputClass} placeholder="Maximum" />
+          <input
+            type="number"
+            className={inputClass}
+            placeholder="Minimum"
+            value={value[0]}
+            onChange={(e) => onChange([e.target.value, value[1]])}
+          />
+          <input
+            type="number"
+            className={inputClass}
+            placeholder="Maximum"
+            value={value[1]}
+            onChange={(e) => onChange([value[0], e.target.value])}
+          />
         </div>
       )
       break
@@ -68,6 +80,7 @@ const FormInput = (props: FormInputProps) => {
                   value={option.value}
                   onChange={() => onChange(option.value)}
                   className="mr-2"
+                  checked={value === option.value}
                 />
                 {option.label}
               </label>

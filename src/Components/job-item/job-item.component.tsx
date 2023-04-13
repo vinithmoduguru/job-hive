@@ -1,7 +1,8 @@
-import React from "react"
 import Button, { ButtonType } from "../Button/Button.component"
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { fetchJob, updateJob, deleteJob } from "../../api/job-hive.api"
+import { JobContext } from "../../Contexts/JobContext"
+import { useContext } from "react"
 
 export interface JobItemProps {
   id: string
@@ -10,8 +11,8 @@ export interface JobItemProps {
   company: string
   location: string
   industry: string
-  salary: Number
-  experience: string
+  salary: any
+  experience: any
   employeeCount: Number
 }
 
@@ -28,9 +29,16 @@ const JobItem = (props: JobItemProps) => {
     employeeCount,
   } = props
 
-  const handleEdit = (id: string) => {
-    const job = fetchJob(id)
+  const { setShowModal, setFormData, formData, setIsEdit } =
+    useContext(JobContext)
+
+  const handleEdit = async (id: string) => {
+    setIsEdit(true)
+    const job = await fetchJob(id)
     console.log(job)
+    setFormData(job)
+    console.log(formData)
+    setShowModal(true)
   }
 
   const handleDelete = (id: string) => {
@@ -64,9 +72,9 @@ const JobItem = (props: JobItemProps) => {
                 Part-Time (9.00 am - 5.00 pm IST)
               </h1>
               <h1 className="text-base font-normal">
-                Experience ({experience})
+                {`Experience (${experience[0]} - ${experience[1]}) years`}
               </h1>
-              <h1 className="text-base font-normal">{`INR (₹) ${salary}`}</h1>
+              <h1 className="text-base font-normal">{`INR (₹) ${salary[0]} - ${salary[1]} / Month`}</h1>
               <h1 className="text-base font-normal">
                 {`${employeeCount}`} employees
               </h1>

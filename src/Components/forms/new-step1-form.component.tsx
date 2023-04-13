@@ -1,30 +1,31 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import Button, { ButtonType } from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
+import { JobContext } from "../../Contexts/JobContext"
 
 interface Step1FormProps {
   handleNextStep: () => void
-  setFormData: (data: any) => void
-  rest?: any
 }
 
 const Step1Form = (props: Step1FormProps) => {
-  const { rest, handleNextStep, setFormData } = props
-  const [jobTitle, setJobTitle] = useState("")
-  const [company, setCompany] = useState("")
-  const [industry, setIndustry] = useState("")
-  const [location, setLocation] = useState("")
-  const [jobType, setJobType] = useState("")
+  const { formData, isEdit, setFormData } = useContext(JobContext)
+  const { handleNextStep } = props
+  const [jobTitle, setJobTitle] = useState(isEdit ? formData.jobTitle : "")
+  const [company, setCompany] = useState(isEdit ? formData.company : "")
+  const [industry, setIndustry] = useState(isEdit ? formData.industry : "")
+  const [location, setLocation] = useState(isEdit ? formData.location : "")
+  const [jobType, setJobType] = useState(isEdit ? formData.jobType : "")
   const handleNext = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setFormData((prevFormData: any) => ({
-      ...prevFormData,
+    const updatedFormData = {
+      ...formData,
       jobTitle,
       company,
       industry,
       location,
       jobType,
-    }))
+    }
+    setFormData(updatedFormData)
     handleNextStep()
   }
   return (

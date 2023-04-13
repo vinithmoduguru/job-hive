@@ -19,9 +19,9 @@ const JobList: React.FC = () => {
 
   return (
     <div className="bg-light grid grid-cols-2 gap-4 items-center justify-center px-6 py-4">
-      {jobs.map((job: JobItemProps, index: number) => (
+      {jobs.map((job: JobItemProps, index: Number) => (
         <JobItem
-          key={index}
+          key={`${index}`}
           id={job.id}
           jobTitle={job.jobTitle}
           jobType={job.jobType}

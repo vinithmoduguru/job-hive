@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Button, { ButtonType } from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
-import { postJob } from "../../api/job-hive.api"
+import { postJob, updateJob } from "../../api/job-hive.api"
+import { JobContext } from "../../Contexts/JobContext"
 
-interface Step2FormProps {
-  formData: any
-  setFormData: (data: any) => void
-  rest?: any
-}
-
-const Step2Form = (props: Step2FormProps) => {
-  const { rest, setFormData, formData } = props
-  const { setShowModal, setCurrentStep } = rest
-  const [experience, setExperience] = useState(0)
-  const [salary, setSalary] = useState(0)
-  const [employeeCount, setEmployeeCount] = useState(0)
-  const [applyType, setApplyType] = useState("")
+const Step2Form = () => {
+  const { isEdit, formData, setFormData, setCurrentStep, setShowModal } =
+    useContext(JobContext)
+  const [experience, setExperience] = useState(
+    isEdit ? formData.experience : [0, 0]
+  )
+  const [salary, setSalary] = useState(isEdit ? formData.salary : [0, 0])
+  const [employeeCount, setEmployeeCount] = useState(
+    isEdit ? formData.employeeCount : 0
+  )
+  const [applyType, setApplyType] = useState(isEdit ? formData.applyType : "")
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,10 +31,15 @@ const Step2Form = (props: Step2FormProps) => {
     setFormData(updatedFormData)
 
     try {
-      console.log(formData, "Form data")
-      const response = await postJob(formData)
-      console.log(response, "Job saved successfully")
-      window.location.reload()
+      console.log(updatedFormData, "Form data")
+      if (isEdit) {
+        const response = await updateJob(formData.id, updatedFormData)
+        console.log(response, "Job updated successfully")
+      } else {
+        const response = await postJob(updatedFormData)
+        console.log(response, "Job saved successfully")
+      }
+      // window.location.reload()
     } catch (error) {
       console.log(error, "Error saving job")
     }
@@ -54,14 +58,14 @@ const Step2Form = (props: Step2FormProps) => {
             size="md"
             label="Experience"
             value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            onChange={(value) => setExperience(value)}
           />
           <FormInput
             type="range"
             size="md"
             label="Salary"
             value={salary}
-            onChange={(e) => setSalary(e.target.value)}
+            onChange={(value) => setSalary(value)}
           />
           <FormInput
             size="lg"
@@ -75,7 +79,7 @@ const Step2Form = (props: Step2FormProps) => {
             type="radio"
             label="Apply Type"
             name="apply-type"
-            value={"external-apply"}
+            value={applyType}
             onChange={setApplyType}
             options={[
               { label: "Quick Apply", value: "quick-apply" },
