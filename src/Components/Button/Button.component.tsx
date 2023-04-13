@@ -1,8 +1,10 @@
 import React from "react"
 
 interface ButtonProps {
-  type: ButtonType
+  buttonType: ButtonType
   children: React.ReactNode
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"]
+  onClick?: () => void
   className?: string
   disabled?: boolean
   rest?: React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -24,11 +26,11 @@ const buttonClasses = {
 }
 
 const Button = (props: ButtonProps) => {
-  const { children, type, rest } = props
-  const buttonClass = buttonClasses[type]
+  const { children, buttonType, rest, onClick, type } = props
+  const buttonClass = buttonClasses[buttonType]
 
   return (
-    <button className={buttonClass} {...rest}>
+    <button className={buttonClass} type={type} onClick={onClick} {...rest}>
       {props.children}
     </button>
   )

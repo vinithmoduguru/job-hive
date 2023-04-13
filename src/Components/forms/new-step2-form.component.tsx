@@ -1,15 +1,48 @@
 import React, { useState } from "react"
 import Button, { ButtonType } from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
+import { postJob } from "../../api/job-hive.api"
 
-const Step2Form = () => {
+interface Step2FormProps {
+  formData: any
+  setFormData: (data: any) => void
+  rest?: any
+}
+
+const Step2Form = (props: Step2FormProps) => {
+  const { rest, setFormData, formData } = props
   const [experience, setExperience] = useState(0)
   const [salary, setSalary] = useState(0)
   const [employeeCount, setEmployeeCount] = useState(0)
   const [applyType, setApplyType] = useState("")
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    console.log(formData)
+    setFormData((prevFormData: any) => ({
+      ...prevFormData,
+      experience,
+      salary,
+      employeeCount,
+      applyType,
+    }))
+
+    handleSave()
+  }
+
+  const handleSave = async () => {
+    try {
+      console.log(formData, "Form data")
+      const response = await postJob(formData)
+      console.log(response, "Job saved successfully")
+    } catch (error) {
+      console.log(error, "Error saving job")
+    }
+  }
+
   return (
     <div className="font-display flex flex-row gap-6">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           <div className="flex align-middle justify-between text-xl font-normal">
             <h1>Create a Job</h1>
@@ -49,7 +82,9 @@ const Step2Form = () => {
           />
 
           <div className="absolute bottom-8 right-8">
-            <Button type={ButtonType.PRIMARY}>Save</Button>
+            <Button type="submit" buttonType={ButtonType.PRIMARY}>
+              Save
+            </Button>
           </div>
         </div>
       </form>

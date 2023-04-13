@@ -2,18 +2,34 @@ import React, { useState } from "react"
 import Button, { ButtonType } from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
 
-const Step1Form = () => {
+interface Step1FormProps {
+  handleNextStep: () => void
+  setFormData: (data: any) => void
+  rest?: any
+}
+
+const Step1Form = (props: Step1FormProps) => {
+  const { rest, handleNextStep, setFormData } = props
   const [jobTitle, setJobTitle] = useState("")
   const [company, setCompany] = useState("")
   const [industry, setIndustry] = useState("")
   const [location, setLocation] = useState("")
   const [jobType, setJobType] = useState("")
-  const handleClick = () => {
-    console.log("clicked")
+  const handleNext = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setFormData((prevFormData: any) => ({
+      ...prevFormData,
+      jobTitle,
+      company,
+      industry,
+      location,
+      jobType,
+    }))
+    handleNextStep()
   }
   return (
     <div className="font-display flex flex-row gap-6">
-      <form>
+      <form onSubmit={handleNext}>
         <div className="flex align-middle justify-between text-xl font-normal">
           <h1>Create a Job</h1>
           <h1>Step 1</h1>
@@ -66,7 +82,11 @@ const Step1Form = () => {
           />
         </div>
         <div className="absolute bottom-8 right-8">
-          <Button type={ButtonType.PRIMARY} rest={{ onClick: handleClick }}>
+          <Button
+            buttonType={ButtonType.PRIMARY}
+            type="submit"
+            // rest={{ ...rest, onClick: handleNextStep }}
+          >
             Next
           </Button>
         </div>
