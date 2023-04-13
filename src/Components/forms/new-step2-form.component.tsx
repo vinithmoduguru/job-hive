@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Button, { ButtonType } from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
 import { postJob } from "../../api/job-hive.api"
@@ -11,30 +11,31 @@ interface Step2FormProps {
 
 const Step2Form = (props: Step2FormProps) => {
   const { rest, setFormData, formData } = props
+  const { setShowModal, setCurrentStep } = rest
   const [experience, setExperience] = useState(0)
   const [salary, setSalary] = useState(0)
   const [employeeCount, setEmployeeCount] = useState(0)
   const [applyType, setApplyType] = useState("")
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(formData)
-    setFormData((prevFormData: any) => ({
-      ...prevFormData,
+
+    setShowModal(false)
+    setCurrentStep(1)
+    const updatedFormData = {
+      ...formData,
       experience,
       salary,
       employeeCount,
       applyType,
-    }))
+    }
+    setFormData(updatedFormData)
 
-    handleSave()
-  }
-
-  const handleSave = async () => {
     try {
       console.log(formData, "Form data")
       const response = await postJob(formData)
       console.log(response, "Job saved successfully")
+      window.location.reload()
     } catch (error) {
       console.log(error, "Error saving job")
     }
@@ -73,8 +74,9 @@ const Step2Form = (props: Step2FormProps) => {
           <FormInput
             type="radio"
             label="Apply Type"
-            value={applyType}
-            onChange={(e) => setApplyType(e.target.value)}
+            name="apply-type"
+            value={"external-apply"}
+            onChange={setApplyType}
             options={[
               { label: "Quick Apply", value: "quick-apply" },
               { label: "External Apply", value: "external-apply" },

@@ -18,6 +18,11 @@ const Home = () => {
   const handleClick = () => {
     setShowModal(true)
   }
+  const handleFormClose = () => {
+    setShowModal(false)
+    setCurrentStep(1)
+  }
+
   return (
     <>
       <div className="bg-light flex justify-start px-4">
@@ -31,15 +36,22 @@ const Home = () => {
 
       {showModal &&
         (currentStep === 1 ? (
-          <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal isOpen={showModal} onClose={handleFormClose}>
             <Step1Form
               handleNextStep={handleNextStep}
               setFormData={setFormData}
             />
           </Modal>
         ) : (
-          <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-            <Step2Form formData={formData} setFormData={setFormData} />
+          <Modal isOpen={showModal} onClose={handleFormClose}>
+            <Step2Form
+              formData={formData}
+              setFormData={setFormData}
+              rest={{
+                setShowModal: setShowModal,
+                setCurrentStep: setCurrentStep,
+              }}
+            />
           </Modal>
         ))}
     </>

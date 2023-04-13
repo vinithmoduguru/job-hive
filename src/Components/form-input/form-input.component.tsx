@@ -5,6 +5,8 @@ interface FormInputProps {
   label: string
   value: any
   onChange: (value: any) => void
+  name?: string
+  checked?: boolean
   options?: { value: any; label: string }[]
   placeholder?: string
   size?: string
@@ -12,8 +14,10 @@ interface FormInputProps {
 }
 
 const FormInput = (props: FormInputProps) => {
-  const { type, label, value, onChange, options, placeholder, size } = props
+  const { type, label, value, onChange, options, placeholder, size, name } =
+    props
   const inputProps = {
+    name,
     type,
     value,
     onChange,
@@ -55,11 +59,13 @@ const FormInput = (props: FormInputProps) => {
         <div className="flex gap-4 items-center">
           {
             (inputElement = options?.map((option) => (
-              <label key={option.value} className="flex items-center">
+              <label
+                key={option.value}
+                className="flex items-center text-light">
                 <input
                   {...inputProps}
+                  id={option.value}
                   value={option.value}
-                  checked={option.value === value}
                   onChange={() => onChange(option.value)}
                   className="mr-2"
                 />

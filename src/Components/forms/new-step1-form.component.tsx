@@ -65,7 +65,7 @@ const Step1Form = (props: Step1FormProps) => {
           <FormInput
             size="md"
             type="text"
-            placeholder="ex. Information Technology"
+            placeholder="Chennai, Tamil Nadu, India"
             label="Location"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
