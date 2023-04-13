@@ -49,7 +49,7 @@ const JobItem = (props: JobItemProps) => {
   }
 
   return (
-    <div className="bg-white font-display flex flex-col gap-4 w-[830px] h-[320px] rounded-[10px] px-6 py-4">
+    <div className="bg-white font-display flex flex-col gap-4 w-auto h-[320px] rounded-[10px] px-6 py-4">
       <div className="flex flex-col gap-0 mb-6">
         <div className="flex flex-row">
           <img
