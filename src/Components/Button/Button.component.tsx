@@ -26,7 +26,7 @@ const buttonClasses = {
 }
 
 const Button = (props: ButtonProps) => {
-  const { children, buttonType, rest, onClick, type } = props
+  const { buttonType, rest, onClick, type } = props
   const buttonClass = buttonClasses[buttonType]
 
   return (
