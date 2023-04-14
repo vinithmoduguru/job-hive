@@ -45,6 +45,7 @@ const FormInput = (props: FormInputProps) => {
     size,
     variant,
     name,
+    required,
   } = props
   const inputProps = {
     name,
@@ -52,6 +53,7 @@ const FormInput = (props: FormInputProps) => {
     value,
     onChange,
     placeholder,
+    required,
   }
 
   let inputElement
@@ -120,7 +122,14 @@ const FormInput = (props: FormInputProps) => {
 
   return (
     <div className="my-4">
-      <label className="block mb-1">{label}</label>
+      <label className="block mb-1">
+        {label}{" "}
+        {required && (
+          <sup>
+            <span className="text-error font-medium">*</span>
+          </sup>
+        )}
+      </label>
       {inputElement}
     </div>
   )

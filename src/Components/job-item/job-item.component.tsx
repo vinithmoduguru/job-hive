@@ -3,6 +3,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
 import { fetchJob, deleteJob } from "../../api/job-hive.api"
 import { JobContext } from "../../Contexts/JobContext"
 import { useContext } from "react"
+import { CURRENCY } from "../../utils/constants"
 
 export enum ApplyType {
   QUICK_APPLY = "quick-apply",
@@ -79,7 +80,7 @@ const JobItem = (props: JobItemProps) => {
               <h1 className="text-base font-normal">
                 {`Experience (${experience[0]} - ${experience[1]}) years`}
               </h1>
-              <h1 className="text-base font-normal">{`INR (₹) ${salary[0]} - ${salary[1]} / Month`}</h1>
+              <h1 className="text-base font-normal">{`${CURRENCY} ${salary[0]} - ${salary[1]} / Month`}</h1>
               <h1 className="text-base font-normal">
                 {`${employeeCount}`} employees
               </h1>
