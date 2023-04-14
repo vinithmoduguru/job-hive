@@ -91,9 +91,7 @@ const Step1Form = (props: Step1FormProps) => {
           <Button
             variant={Button.Variant.BASE}
             size={Button.Size.SMALL}
-            type="submit"
-            // rest={{ ...rest, onClick: handleNextStep }}
-          >
+            type="submit">
             Next
           </Button>
         </div>

@@ -5,6 +5,7 @@ import { fetchJobs } from "../../api/job-hive.api"
 const JobList: React.FC = () => {
   const [jobs, setJobs] = useState<JobItemProps[]>([])
 
+  // Polling data
   useEffect(() => {
     const interval = setInterval(() => {
       fetchJobData()
