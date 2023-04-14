@@ -17,9 +17,9 @@ export interface JobItemProps {
   company: string
   location: string
   industry: string
-  salary: any
-  experience: any
-  employeeCount: Number
+  salary: number[]
+  experience: number[]
+  employeeCount: string
   applyType: ApplyType
 }
 
@@ -54,6 +54,15 @@ const JobItem = (props: JobItemProps) => {
     }
   }
 
+  const formatMoney = (salary: number[]) => {
+    const [min, max] = salary
+    return `${CURRENCY} ${min
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} - ${
+      max ? max.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "Unspecified"
+    }`
+  }
+
   return (
     <div className="bg-white font-display flex flex-col gap-4 w-auto h-[320px] rounded-[10px] px-6 py-4">
       <div className="flex flex-col gap-0 mb-6">
@@ -80,7 +89,10 @@ const JobItem = (props: JobItemProps) => {
               <h1 className="text-base font-normal">
                 {`Experience (${experience[0]} - ${experience[1]}) years`}
               </h1>
-              <h1 className="text-base font-normal">{`${CURRENCY} ${salary[0]} - ${salary[1]} / Month`}</h1>
+              {/* <h1 className="text-base font-normal">{`${CURRENCY} ${salary[0]} - ${salary[1]} / Month`}</h1> */}
+              <h1 className="text-base font-normal">{`${formatMoney(
+                salary
+              )} / Month`}</h1>
               <h1 className="text-base font-normal">
                 {`${employeeCount}`} employees
               </h1>

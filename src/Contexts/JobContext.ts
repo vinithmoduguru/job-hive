@@ -9,7 +9,7 @@ export interface FormData {
   industry: string
   salary: number[]
   experience: number[]
-  employeeCount: number
+  employeeCount: string
   applyType: string
 }
 
@@ -34,7 +34,7 @@ export const JobContext = createContext<JobContextProps>({
     industry: "",
     salary: [0, 0],
     experience: [0, 0],
-    employeeCount: 0,
+    employeeCount: "",
     applyType: "",
   },
   setFormData: () => {},

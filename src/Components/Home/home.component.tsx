@@ -18,7 +18,7 @@ const Home = () => {
     industry: "",
     salary: [0, 0],
     experience: [0, 0],
-    employeeCount: 0,
+    employeeCount: "",
     applyType: "",
   })
   const [showModal, setShowModal] = useState(false)

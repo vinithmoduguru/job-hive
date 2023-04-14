@@ -12,7 +12,7 @@ const Step2Form = () => {
   )
   const [salary, setSalary] = useState(isEdit ? formData.salary : [0, 0])
   const [employeeCount, setEmployeeCount] = useState(
-    isEdit ? formData.employeeCount : 0
+    isEdit ? formData.employeeCount : ""
   )
   const [applyType, setApplyType] = useState(isEdit ? formData.applyType : "")
 
@@ -71,7 +71,7 @@ const Step2Form = () => {
           <FormInput
             size={FormInput.Size.LARGE}
             variant={FormInput.Variant.BASE}
-            type="number"
+            type="text"
             placeholder="ex. 100"
             label="Total employee"
             value={employeeCount}
