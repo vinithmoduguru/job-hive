@@ -1,14 +1,38 @@
 import { Dialog, Transition } from "@headlessui/react"
 import React from "react"
+import { classNames } from "../../utils/utils"
 
+enum Size {
+  SMALL,
+  MEDIUM,
+  LARGE,
+}
+
+enum Variant {
+  BASE,
+}
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
   children: React.ReactNode
+  size: Size
+  variant: Variant
+}
+
+const SIZE_MAPS: Record<Size, string> = {
+  [Size.SMALL]: "max-w-[320px] h-[384px]",
+  [Size.MEDIUM]: "max-w-[577px] h-[564px]",
+  [Size.LARGE]: "max-w-[1024px] h-[768px]",
+}
+
+const VARIANT_MAPS: Record<Variant, string> = {
+  [Variant.BASE]:
+    "inline-block w-full p-8 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-[10px] border border-#E6E6E6 gap-6",
 }
 
 const Modal = (props: ModalProps) => {
-  const { isOpen, onClose, children } = props
+  const { isOpen, onClose, children, size, variant } = props
+
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog
@@ -41,7 +65,7 @@ const Modal = (props: ModalProps) => {
             leave="ease-in duration-200"
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95">
-            <div className="inline-block w-full max-w-[577px] h-[564px] p-8 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-[10px] border border-#E6E6E6 gap-6">
+            <div className={classNames(SIZE_MAPS[size], VARIANT_MAPS[variant])}>
               {children}
             </div>
           </Transition.Child>
@@ -50,5 +74,13 @@ const Modal = (props: ModalProps) => {
     </Transition>
   )
 }
+
+Modal.defaultProps = {
+  size: Size.MEDIUM,
+  variant: Variant.BASE,
+}
+
+Modal.Size = Size
+Modal.Variant = Variant
 
 export default Modal

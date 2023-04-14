@@ -6,16 +6,22 @@ const JobList: React.FC = () => {
   const [jobs, setJobs] = useState<JobItemProps[]>([])
 
   useEffect(() => {
-    const getJobs = async () => {
-      try {
-        const data: JobItemProps[] = await fetchJobs()
-        setJobs(data)
-      } catch (error) {
-        console.error("Error fetching jobs:", error)
-      }
-    }
-    getJobs()
+    const interval = setInterval(() => {
+      fetchJobData()
+    }, 5000) // fetch data every 5 seconds
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(interval)
   }, [])
+
+  const fetchJobData = async () => {
+    try {
+      const data: JobItemProps[] = await fetchJobs()
+      setJobs(data)
+    } catch (error) {
+      console.error("Error fetching jobs:", error)
+    }
+  }
 
   return (
     <div className="bg-light grid grid-cols-2 gap-4 items-center justify-center px-6 py-4">
@@ -31,6 +37,7 @@ const JobList: React.FC = () => {
           salary={job.salary}
           experience={job.experience}
           employeeCount={job.employeeCount}
+          applyType={job.applyType}
         />
       ))}
     </div>

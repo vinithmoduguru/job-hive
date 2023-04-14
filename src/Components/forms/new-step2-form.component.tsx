@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import Button, { ButtonType } from "../Button/Button.component"
+import Button from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
 import { postJob, updateJob } from "../../api/job-hive.api"
 import { JobContext } from "../../Contexts/JobContext"
@@ -39,7 +39,6 @@ const Step2Form = () => {
         const response = await postJob(updatedFormData)
         console.log(response, "Job saved successfully")
       }
-      // window.location.reload()
     } catch (error) {
       console.log(error, "Error saving job")
     }
@@ -55,20 +54,23 @@ const Step2Form = () => {
           </div>
           <FormInput
             type="range"
-            size="md"
+            size={FormInput.Size.MEDIUM}
+            variant={FormInput.Variant.BASE}
             label="Experience"
             value={experience}
             onChange={(value) => setExperience(value)}
           />
           <FormInput
             type="range"
-            size="md"
+            size={FormInput.Size.MEDIUM}
+            variant={FormInput.Variant.BASE}
             label="Salary"
             value={salary}
             onChange={(value) => setSalary(value)}
           />
           <FormInput
-            size="lg"
+            size={FormInput.Size.LARGE}
+            variant={FormInput.Variant.BASE}
             type="number"
             placeholder="ex. 100"
             label="Total employee"
@@ -88,7 +90,10 @@ const Step2Form = () => {
           />
 
           <div className="absolute bottom-8 right-8">
-            <Button type="submit" buttonType={ButtonType.PRIMARY}>
+            <Button
+              type="submit"
+              size={Button.Size.SMALL}
+              variant={Button.Variant.BASE}>
               Save
             </Button>
           </div>

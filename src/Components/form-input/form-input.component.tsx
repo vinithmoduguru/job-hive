@@ -1,43 +1,57 @@
 import React from "react"
+import { classNames } from "../../utils/utils"
 
 interface FormInputProps {
   type: string
   label: string
   value: any
   onChange: (value: any) => void
+  size: Size
+  variant: Variant
   name?: string
   checked?: boolean
   options?: { value: any; label: string }[]
   placeholder?: string
-  size?: string
   required?: boolean
 }
 
+enum Variant {
+  BASE,
+}
+
+enum Size {
+  MEDIUM,
+  LARGE,
+}
+
+const SIZE_MAPS: Record<Size, string> = {
+  [Size.MEDIUM]: "w-[244.5px] h-[36px]",
+  [Size.LARGE]: "w-[513px] h-[36px]",
+}
+
+const VARIANT_MAPS: Record<Variant, string> = {
+  [Variant.BASE]:
+    "bg-white focus:outline-none focus:shadow-outline border border-#E6E6E6 rounded-[5px] py-[8px] px-[12px] block appearance-none leading-normal",
+}
+
 const FormInput = (props: FormInputProps) => {
-  const { type, label, value, onChange, options, placeholder, size, name } =
-    props
+  const {
+    type,
+    label,
+    value,
+    onChange,
+    options,
+    placeholder,
+    size,
+    variant,
+    name,
+  } = props
   const inputProps = {
     name,
     type,
     value,
     onChange,
     placeholder,
-  }
-
-  let inputClass
-  switch (size) {
-    case "md":
-      inputClass =
-        "w-[244.5px] h-[36px] bg-white focus:outline-none focus:shadow-outline border border-#E6E6E6 rounded-[5px] py-[8px] px-[12px] block appearance-none leading-normal"
-      break
-    case "lg":
-      inputClass =
-        "w-[513px] h-[36px] bg-white focus:outline-none focus:shadow-outline border border-#E6E6E6 rounded-[5px] py-[8px] px-[12px] block appearance-none leading-normal"
-      break
-    default:
-      inputClass =
-        "w-[513px] h-[36px] bg-white focus:outline-none focus:shadow-outline border border-#E6E6E6 rounded-[5px] py-[8px] px-[12px] block appearance-none leading-normal"
-      break
   }
 
   let inputElement
@@ -48,14 +62,14 @@ const FormInput = (props: FormInputProps) => {
         <div className="flex gap-6 items-center">
           <input
             type="number"
-            className={inputClass}
+            className={classNames(SIZE_MAPS[size], VARIANT_MAPS[variant])}
             placeholder="Minimum"
             value={value[0]}
             onChange={(e) => onChange([e.target.value, value[1]])}
           />
           <input
             type="number"
-            className={inputClass}
+            className={classNames(SIZE_MAPS[size], VARIANT_MAPS[variant])}
             placeholder="Maximum"
             value={value[1]}
             onChange={(e) => onChange([value[0], e.target.value])}
@@ -64,7 +78,12 @@ const FormInput = (props: FormInputProps) => {
       )
       break
     case "text":
-      inputElement = <input {...inputProps} className={inputClass} />
+      inputElement = (
+        <input
+          {...inputProps}
+          className={classNames(SIZE_MAPS[size], VARIANT_MAPS[variant])}
+        />
+      )
       break
     case "radio":
       inputElement = (
@@ -90,7 +109,12 @@ const FormInput = (props: FormInputProps) => {
       )
       break
     default:
-      inputElement = <input {...inputProps} className={inputClass} />
+      inputElement = (
+        <input
+          {...inputProps}
+          className={classNames(SIZE_MAPS[size], VARIANT_MAPS[variant])}
+        />
+      )
       break
   }
 
@@ -101,5 +125,14 @@ const FormInput = (props: FormInputProps) => {
     </div>
   )
 }
+
+FormInput.defaultProps = {
+  type: "text",
+  size: Size.LARGE,
+  variant: Variant.BASE,
+}
+
+FormInput.Variant = Variant
+FormInput.Size = Size
 
 export default FormInput

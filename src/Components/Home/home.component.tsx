@@ -1,7 +1,6 @@
 import React from "react"
 import JobList from "../job-list/job-list.component"
 import Button from "../Button/Button.component"
-import { ButtonType } from "../Button/Button.component"
 import Step1Form from "../forms/new-step1-form.component"
 import Step2Form from "../forms/new-step2-form.component"
 import Modal from "../Modal/modal.component"
@@ -52,7 +51,8 @@ const Home = () => {
         }}>
         <div className="bg-light flex justify-start px-4">
           <Button
-            buttonType={ButtonType.LG_PRIMARY}
+            variant={Button.Variant.BASE}
+            size={Button.Size.LARGE}
             rest={{ onClick: handleClick }}>
             Create a Job
           </Button>
@@ -61,11 +61,19 @@ const Home = () => {
 
         {showModal &&
           (currentStep === 1 ? (
-            <Modal isOpen={showModal} onClose={handleFormClose}>
+            <Modal
+              isOpen={showModal}
+              onClose={handleFormClose}
+              size={Modal.Size.MEDIUM}
+              variant={Modal.Variant.BASE}>
               <Step1Form handleNextStep={handleNextStep} />
             </Modal>
           ) : (
-            <Modal isOpen={showModal} onClose={handleFormClose}>
+            <Modal
+              isOpen={showModal}
+              onClose={handleFormClose}
+              size={Modal.Size.MEDIUM}
+              variant={Modal.Variant.BASE}>
               <Step2Form />
             </Modal>
           ))}

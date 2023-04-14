@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import Button, { ButtonType } from "../Button/Button.component"
+import Button from "../Button/Button.component"
 import FormInput from "../form-input/form-input.component"
 import { JobContext } from "../../Contexts/JobContext"
 
@@ -36,7 +36,8 @@ const Step1Form = (props: Step1FormProps) => {
           <h1>Step 1</h1>
         </div>
         <FormInput
-          size="lg"
+          size={FormInput.Size.LARGE}
+          variant={FormInput.Variant.BASE}
           type="text"
           placeholder="ex. UX UI Designer"
           label="Job Title"
@@ -45,7 +46,8 @@ const Step1Form = (props: Step1FormProps) => {
           required
         />
         <FormInput
-          size="lg"
+          size={FormInput.Size.LARGE}
+          variant={FormInput.Variant.BASE}
           type="text"
           placeholder="ex. Google"
           label="Company Name"
@@ -54,7 +56,8 @@ const Step1Form = (props: Step1FormProps) => {
           required
         />
         <FormInput
-          size="lg"
+          size={FormInput.Size.LARGE}
+          variant={FormInput.Variant.BASE}
           type="text"
           placeholder="ex. Information Technology"
           label="Industry"
@@ -64,7 +67,8 @@ const Step1Form = (props: Step1FormProps) => {
         />
         <div className="flex gap-6 items-center">
           <FormInput
-            size="md"
+            size={FormInput.Size.MEDIUM}
+            variant={FormInput.Variant.BASE}
             type="text"
             placeholder="Chennai, Tamil Nadu, India"
             label="Location"
@@ -73,7 +77,8 @@ const Step1Form = (props: Step1FormProps) => {
             required
           />
           <FormInput
-            size="md"
+            size={FormInput.Size.MEDIUM}
+            variant={FormInput.Variant.BASE}
             type="text"
             placeholder="ex. In-office"
             label="Remote Type"
@@ -84,7 +89,8 @@ const Step1Form = (props: Step1FormProps) => {
         </div>
         <div className="absolute bottom-8 right-8">
           <Button
-            buttonType={ButtonType.PRIMARY}
+            variant={Button.Variant.BASE}
+            size={Button.Size.SMALL}
             type="submit"
             // rest={{ ...rest, onClick: handleNextStep }}
           >

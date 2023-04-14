@@ -1,8 +1,13 @@
-import Button, { ButtonType } from "../Button/Button.component"
+import Button from "../Button/Button.component"
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid"
-import { fetchJob, updateJob, deleteJob } from "../../api/job-hive.api"
+import { fetchJob, deleteJob } from "../../api/job-hive.api"
 import { JobContext } from "../../Contexts/JobContext"
 import { useContext } from "react"
+
+export enum ApplyType {
+  QUICK_APPLY = "quick-apply",
+  EXTERNAL_APPLY = "external-apply",
+}
 
 export interface JobItemProps {
   id: string
@@ -14,6 +19,7 @@ export interface JobItemProps {
   salary: any
   experience: any
   employeeCount: Number
+  applyType: ApplyType
 }
 
 const JobItem = (props: JobItemProps) => {
@@ -27,25 +33,24 @@ const JobItem = (props: JobItemProps) => {
     salary,
     experience,
     employeeCount,
+    applyType,
   } = props
 
-  const { setShowModal, setFormData, formData, setIsEdit } =
-    useContext(JobContext)
+  const { setShowModal, setFormData, setIsEdit } = useContext(JobContext)
 
   const handleEdit = async (id: string) => {
     setIsEdit(true)
     const job = await fetchJob(id)
-    console.log(job)
     setFormData(job)
-    console.log(formData)
     setShowModal(true)
   }
 
-  const handleDelete = (id: string) => {
-    const res = deleteJob(id).then(() => {
-      window.location.reload()
-    })
-    console.log(res)
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteJob(id)
+    } catch (err) {
+      console.log("Error deleting job ", err)
+    }
   }
 
   return (
@@ -80,10 +85,18 @@ const JobItem = (props: JobItemProps) => {
               </h1>
             </div>
             <div className="flex flex-row gap-6 mt-6">
-              <Button buttonType={ButtonType.LG_PRIMARY}>Apply Now</Button>
-              <Button buttonType={ButtonType.LG_INVERTED}>
-                External Apply
-              </Button>
+              {applyType === ApplyType.QUICK_APPLY && (
+                <Button size={Button.Size.MEDIUM} variant={Button.Variant.BASE}>
+                  Apply Now
+                </Button>
+              )}
+              {applyType === ApplyType.EXTERNAL_APPLY && (
+                <Button
+                  size={Button.Size.LARGE}
+                  variant={Button.Variant.OUTLINE}>
+                  External Apply
+                </Button>
+              )}
             </div>
           </div>
           <div className="flex flex-row gap-6 ml-auto items-start">

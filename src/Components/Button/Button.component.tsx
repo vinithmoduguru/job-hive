@@ -1,8 +1,9 @@
 import React from "react"
-
+import { classNames } from "../../utils/utils"
 interface ButtonProps {
-  buttonType: ButtonType
-  children: React.ReactNode
+  variant: Variant
+  size: Size
+  children?: React.ReactNode
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"]
   onClick?: () => void
   className?: string
@@ -10,30 +11,52 @@ interface ButtonProps {
   rest?: React.ButtonHTMLAttributes<HTMLButtonElement>
 }
 
-export enum ButtonType {
-  PRIMARY = "primary",
-  LG_PRIMARY = "lg-primary",
-  LG_INVERTED = "lg-inverted",
+enum Variant {
+  BASE,
+  OUTLINE,
 }
 
-const buttonClasses = {
-  [ButtonType.PRIMARY]:
-    "w-[68px] h-[40px] bg-primary text-white rounded-md text-sm font-medium",
-  [ButtonType.LG_PRIMARY]:
-    "w-[118px] h-[40px] bg-primary text-white rounded-md text-sm font-medium",
-  [ButtonType.LG_INVERTED]:
-    "w-[147px] h-[40px] bg-white text-primary rounded-md font-medium border border-primary",
+enum Size {
+  SMALL,
+  MEDIUM,
+  LARGE,
+}
+
+const SIZE_MAPS: Record<Size, string> = {
+  [Size.SMALL]: "w-[68px] h-[40px]",
+  [Size.MEDIUM]: "w-[118px] h-[40px]",
+  [Size.LARGE]: "w-[147px] h-[40px]",
+}
+
+const VARIANT_MAPS: Record<Variant, string> = {
+  [Variant.BASE]: "bg-primary text-white",
+  [Variant.OUTLINE]: "bg-white text-primary border border-primary",
 }
 
 const Button = (props: ButtonProps) => {
-  const { buttonType, rest, onClick, type } = props
-  const buttonClass = buttonClasses[buttonType]
+  const { rest, onClick, type, variant, size, children } = props
 
   return (
-    <button className={buttonClass} type={type} onClick={onClick} {...rest}>
-      {props.children}
+    <button
+      className={classNames(
+        "rounded-md font-medium text-base",
+        VARIANT_MAPS[variant],
+        SIZE_MAPS[size]
+      )}
+      type={type}
+      onClick={onClick}
+      {...rest}>
+      {children}
     </button>
   )
 }
+
+Button.defaultProps = {
+  variant: Variant.BASE,
+  size: Size.SMALL,
+}
+
+Button.Variant = Variant
+Button.Size = Size
 
 export default Button
