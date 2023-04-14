@@ -89,7 +89,6 @@ const JobItem = (props: JobItemProps) => {
               <h1 className="text-base font-normal">
                 {`Experience (${experience[0]} - ${experience[1]}) years`}
               </h1>
-              {/* <h1 className="text-base font-normal">{`${CURRENCY} ${salary[0]} - ${salary[1]} / Month`}</h1> */}
               <h1 className="text-base font-normal">{`${formatMoney(
                 salary
               )} / Month`}</h1>
